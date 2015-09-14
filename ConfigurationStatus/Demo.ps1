@@ -19,7 +19,7 @@ $Status | Group-Object -Property JobId
 # post reboot will have same job id
 
 # resources in desired state
-$Status[-3].ResourcesInDesiredState | Format-Table ResourceId, ModuleName, ModuleVersion, REbootRequested -AutoSize
+$Status[-2].ResourcesInDesiredState | Format-Table ResourceId, ModuleName, ModuleVersion, REbootRequested -AutoSize
 
 # mess around with something
 Invoke-Command -ComputerName $DomainController -Credential $Credential {net user nana /delete }

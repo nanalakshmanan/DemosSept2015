@@ -1,10 +1,18 @@
 ﻿[DscLocalConfigurationManager()]
-configuration MetaConfig
+configuration MetaConfiguration
 {   
-    Settings
+    param(
+        [string]
+        $ComputerName = 'localhost'
+    )
+
+    node $ComputerName
     {
-        RefreshFrequencyMins = 60
-        ActionAfterReboot    = 'StopConfiguration'
-        DebugMode            = 'ForceModuleImport'
+        Settings
+        {
+            RefreshFrequencyMins = 60
+            ActionAfterReboot    = 'StopConfiguration'
+            DebugMode            = 'ForceModuleImport'
+        }
     }
 }

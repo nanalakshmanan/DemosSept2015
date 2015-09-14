@@ -49,6 +49,7 @@ Get-Runspace
 copy "$env:ProgramFiles\windowspowershell\modules\nServiceManager\nService.psm1" "$env:ProgramFiles\windowspowershell\modules\nServiceManager\nService.Original.psm1"
 copy "$ScriptPath\nService_Buggy.psm1" "$env:ProgramFiles\windowspowershell\modules\nServiceManager\nService.psm1"
 
+psedit "$ScriptPath\ServiceConfigurationClasses.ps1"
 . "$ScriptPath\ServiceConfigurationClasses.ps1"
 ServiceConfigurationClasses -OutputPath "$Outputpath\ServiceConfigurationClasses"
 Start-DscConfiguration -Path "$Outputpath\ServiceConfigurationClasses" -ComputerName localhost -Verbose -force -Wait

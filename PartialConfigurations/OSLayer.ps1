@@ -21,7 +21,7 @@
         {
             Ensure          = "Present"
             Name            = "Web-Asp-Net45"
-        }
+        }        
     }
 }
 

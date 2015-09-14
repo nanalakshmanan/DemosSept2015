@@ -19,7 +19,7 @@ configuration MetaConfigForPartialConfigs
             ExclusiveResources = @("xComputerManagement\xComputer")
         }
 
-        PartialConfiguration Website
+        PartialConfiguration AppLayer
         {
             Description = 'Web application deployment'
             ExclusiveResources = @('xWebAdministrator\xWebsite')

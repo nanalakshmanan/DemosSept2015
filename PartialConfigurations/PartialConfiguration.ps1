@@ -14,15 +14,15 @@ psedit "$ScriptPath\MetaConfiguration.ps1"
 psedit "$ScriptPath\MetaConfigurationForPartialConfigs.ps1"
 . "$ScriptPath\MetaConfigurationForPartialConfigs.ps1"
 
-MetaConfigForPartialConfigs -ComputerName $TestNode -OutputPath "$OutputPath\MetaConfigurationForPartialConfigs"
-Set-DscLocalConfigurationManager -Path "$OutputPath\MetaConfigurationForPartialConfigs" -ComputerName $TestNode `
+MetaConfigForPartialConfigs -ComputerName $PCTestNode -OutputPath "$OutputPath\MetaConfigurationForPartialConfigs"
+Set-DscLocalConfigurationManager -Path "$OutputPath\MetaConfigurationForPartialConfigs" -ComputerName $PCTestNode `
                                     -Verbose -Credential $Credential
 
 # Once set start will not work
 psedit "$ScriptPath\HeloWorld.ps1"
 . "$ScriptPath\HeloWorld.ps1"
-HeloWorld -ComputerName $TestNode -OutputPath "$OutputPath\HeloWorld"
-Start-DscConfiguration -Path "$OutputPath\HeloWorld" -Wait -Force -ComputerName $TestNode -Credential $Credential -Verbose
+HeloWorld -ComputerName $PCTestNode -OutputPath "$OutputPath\HeloWorld"
+Start-DscConfiguration -Path "$OutputPath\HeloWorld" -Wait -Force -ComputerName $PCTestNode -Credential $Credential -Verbose
  
 psedit "$ScriptPath\OSLayer.ps1"
 psedit "$ScriptPath\AppLayer.ps1"
@@ -30,17 +30,19 @@ psedit "$ScriptPath\AppLayer.ps1"
 . "$ScriptPath\OSLayer.ps1"
 . "$ScriptPath\AppLayer.ps1"
 
-OSLayer -ComputerName $TestNode -OutputPath "$OutputPath\OSLayer"
-AppLayer -ComputerName $TestNode -OutputPath "$OutputPath\AppLayer"
+OSLayer -ComputerName $PCTestNode -OutputPath "$OutputPath\OSLayer"
+AppLayer -ComputerName $PCTestNode -OutputPath "$OutputPath\AppLayer"
 
-Publish-DscConfiguration -Path "$OutputPath\OSLayer" -ComputerName $TestNode -verbose -Credential $Credential
+Publish-DscConfiguration -Path "$OutputPath\OSLayer" -ComputerName $PCTestNode -verbose -Credential $Credential
 
-Publish-DscConfiguration -Path "$OutputPath\AppLayer" -ComputerName $TestNode -verbose -Credential $Credential
+Publish-DscConfiguration -Path "$OutputPath\AppLayer" -ComputerName $PCTestNode -verbose -Credential $Credential
 
 # the file is only published and during invocation is merged
-Invoke-Command $TestNode -Credential $Credential { dir "$env:windir\system32\configuration\PartialConfigurations"}
-Invoke-ConsistencyCheck -ComputerName $TestNode -Credential $Credential
+Invoke-Command $PCTestNode -Credential $Credential { dir "$env:windir\system32\configuration\PartialConfigurations"}
+Invoke-ConsistencyCheck -ComputerName $PCTestNode -Credential $Credential
 
 # reset the metaconfiguration 
-Set-DscLocalConfigurationManager -Path "$OutputPath\MetaConfiguration" -ComputerName $TestNode -Credential $Credential -Verbose
+. "$ScriptPath\MetaConfiguration.ps1"
+MetaConfiguration -ComputerName $PCTestNode -OutputPath "$OutputPath\MetaConfiguration"
+Set-DscLocalConfigurationManager -Path "$OutputPath\MetaConfiguration" -ComputerName $PCTestNode -Credential $Credential -Verbose
 

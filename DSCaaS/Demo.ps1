@@ -42,8 +42,10 @@ Get-AzureAutomationDscCompilationJob -Id $job.Id -ResourceGroupName $Settings.Re
 Register-AzureAutomationDscNode -AzureVMName $AzureDemoNode `
                                 -ResourceGroupName $Settings.ResourceGroup `
                                 -AutomationAccountName $Settings.AutomationAccount `
-                                -AzureVMLocation 'East US' `
+                                -AzureVMLocation $Settings.StorageLocation `
                                 -Verbose
+# get list of nodes registered
+Get-AzureAutomationDscNode -ResourceGroupName $Settings.ResourceGroup -AutomationAccountName $Settings.AutomationAccount 
 
 # get the required metaconfiguration
 Get-AzureAutomationDscOnboardingMetaconfig -OutputFolder "$DemoRoot" `
