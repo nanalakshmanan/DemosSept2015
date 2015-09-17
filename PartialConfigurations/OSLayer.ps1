@@ -5,7 +5,7 @@
             $ComputerName
         )
 
-    Import-DscResource -ModuleName PSDesiredStateConfiguration
+    Import-DscResource -ModuleName PSDesiredStateConfiguration, xwebadministration
 
     node $ComputerName
     {
@@ -22,6 +22,14 @@
             Ensure          = "Present"
             Name            = "Web-Asp-Net45"
         }        
+
+        xWebsite DefaultSite 
+        {
+            Ensure          = "Present"
+            Name            = "Default Web Site"
+            State           = "Stopped"
+            PhysicalPath    = "C:\inetpub\wwwroot"
+        }
     }
 }
 

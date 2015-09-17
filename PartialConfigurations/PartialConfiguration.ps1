@@ -39,6 +39,18 @@ Publish-DscConfiguration -Path "$OutputPath\AppLayer" -ComputerName $PCTestNode 
 
 # the file is only published and during invocation is merged
 Invoke-Command $PCTestNode -Credential $Credential { dir "$env:windir\system32\configuration\PartialConfigurations"}
+
+# convergence happens automatically on the next consistency check
+Invoke-ConsistencyCheck -ComputerName $PCTestNode -Credential $Credential
+
+# you can also force one using Start-DscConfiguration
+Start-DscConfiguration -UseExisting -ComputerName $PCTestNode -Wait -Verbose -Credential $Credential
+
+# correct the exclusiv error and republish
+psedit "$ScriptPath\OSLayer.ps1"
+. "$ScriptPath\OSLayer.ps1"
+OSLayer -ComputerName $PCTestNode -OutputPath "$OutputPath\OSLayer"
+Publish-DscConfiguration -Path "$OutputPath\OSLayer" -ComputerName $PCTestNode -verbose -Credential $Credential
 Invoke-ConsistencyCheck -ComputerName $PCTestNode -Credential $Credential
 
 # reset the metaconfiguration 

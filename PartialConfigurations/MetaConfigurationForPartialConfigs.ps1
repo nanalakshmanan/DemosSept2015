@@ -22,7 +22,7 @@ configuration MetaConfigForPartialConfigs
         PartialConfiguration AppLayer
         {
             Description = 'Web application deployment'
-            ExclusiveResources = @('xWebAdministrator\xWebsite')
+            ExclusiveResources = @('xWebAdministration\xWebsite')
             DependsOn  = "[PartialConfiguration]OSLayer"
         }
     }
