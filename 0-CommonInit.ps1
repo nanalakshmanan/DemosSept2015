@@ -7,7 +7,7 @@ $AzureDemoNode = 'Nana-AADemo-10'
 Import-Module -Force "$MyPath\HelperMethods.psm1"
 
 $DomainController    = 'Nana-XM-DC' 
-$DNSServer           = '192.168.1.100'
+$DNSServer           = '92.168.1.100'
 $TestNode            = 'Nana-XM-Node'
 $PCTestNode          = 'Nana-PC-Node'
 
